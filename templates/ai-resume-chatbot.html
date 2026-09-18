@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart CV Extractor - ChatBot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_chat.css') }}">
+  <!-- إضافة أي مكتبات إضافية هنا -->
+  <style>
+    /* تنسيق زر اختيار الوضع */
+    .mode-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .mode-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      background: #007bff;
+      color: #fff;
+    }
+    .mode-button.active {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body> <!-- رأس الصفحة: يحتوي على الشعار وقائمة التنقل بين أقسام الموقع -->
+  <header>
+    <a href="/" class="logo"><i class="fas fa-robot"></i> JOBFIT</a>
+    <nav class="navbar">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="chat-container"> <!-- حاوية المحادثة -->
+
+    <!-- زر اختيار الوضع بين إنشاء سيرة ذاتية والاستفسار-->
+    <div class="mode-buttons">
+      <button class="mode-button active" id="creationMode" onclick="setChatMode('creation')">
+        Create Resume <!-- يبدأ دردشة لإنشاء سيرة ذاتية.-->
+      </button>
+      <button class="mode-button" id="inquiryMode" onclick="setChatMode('inquiry')">
+        CV Inquiries <!--يسمح بطرح استفسارات عامة.-->
+      </button>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-text">💬 JOBFIT</span>
+      <span class="status-online">🟢 متصل الآن</span>
+    </div>
+
+    <!-- صندوق الدردشة -->
+    <div id="chat-box">
+      <div class="bot-message" id="initial-bot-message">
+        <img src="{{ url_for('static', filename='images/chat.png') }}" class="chat-avatar" alt="Bot">
+        <div class="message-content">
+          <!-- الرسالة الأولية تعتمد على وضع الدردشة -->
+          👋 مرحبًا! أنا مساعدك لإنشاء سيرة ذاتية احترافية. من فضلك، أدخل معلوماتك:
+        </div>
+      </div>
+    </div>
+
+    <!-- قسم إدخال المستخدم: كتابة الرسالة، زر إرسال الرسالة وزر تحميل السيرة الذاتية -->
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="اكتب رسالتك هنا..." />
+      <button class="send-btn" onclick="sendMessage()">📩 إرسال</button>
+      <button class="download-btn" onclick="downloadCV()">📥 تنزيل السيرة الذاتية</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>جميع الحقوق محفوظة © 2025 JOBFIT</p>
+  </footer>
+
+  <script>
+    // متغير لتحديد وضع الدردشة الحالي (افتراضي إنشاء السيرة الذاتية)
+    let chatMode = 'creation';
+
+    // دالة لتحديث وضع الدردشة وتحديث الرسالة الأولية
+    function setChatMode(mode) { // دالة لتغيير وضع الدردشة حسب الزر الذي يضغطه المستخدم
+      chatMode = mode;
+      // تحديث الزر الفعال
+      document.getElementById('creationMode').classList.remove('active');
+      document.getElementById('inquiryMode').classList.remove('active');
+      if(mode === 'creation') {
+        document.getElementById('creationMode').classList.add('active');
+        updateInitialMessage("👋 مرحبًا! أنا مساعدك لإنشاء سيرة ذاتية احترافية. من فضلك، أدخل معلوماتك:");
+      } else {
+        document.getElementById('inquiryMode').classList.add('active');
+        updateInitialMessage("👋 مرحبًا! كيف يمكنني مساعدتك في استفساراتك حول طريقة إنشاء السيرة الذاتية؟");
+      }
+    }
+
+// هذه الدالة تغيّر رسالة الترحيب في بداية المحادثة وتعرضها للمستخدم
+    // دالة لتحديث الرسالة الأولية في صندوق الدردشة
+    function updateInitialMessage(message) {
+      const initialMessageDiv = document.getElementById('initial-bot-message');
+      initialMessageDiv.querySelector('.message-content').innerText = message;
+      // إعادة تمرير الدردشة لأسفل
+      const chatBox = document.getElementById("chat-box");
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() { // ترسل الرسالة إذا المستخدم كتب شيء
+      let userInput = document.getElementById("user-input").value.trim();
+      if (userInput === "") {
+        alert("📢 يرجى كتابة رسالة قبل الإرسال!");
+        return;
+      }
+
+      let chatBox = document.getElementById("chat-box"); //يحدد مكان صندوق المحادثة عشان نضيف فيه الرسائل.
+
+      let userMessage = document.createElement("div");
+      userMessage.className = "user-message";
+      userMessage.innerHTML = `<img src="{{ url_for('static', filename='images/user.png') }}" class="chat-avatar" alt="User">
+      <div class="message-content">${userInput}</div>`; // يضيف صورة المستخدم والنص اللي كتبه داخل الرسالة.
+      chatBox.appendChild(userMessage); //يضيف رسالة المستخدم لصندوق المحادثة عشان تظهر على الشاشة.
+
+      document.getElementById("user-input").value = ""; // يمسح النص من خانة الكتابة بعد الإرسال.
+
+      // التمرير تلقائيًا لآخر رسالة
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      let typingIndicator = document.createElement("div");
+      typingIndicator.className = "bot-message typing";
+      typingIndicator.innerHTML = `<img src="{{ url_for('static', filename='images/chat.png') }}" class="chat-avatar" alt="Bot">
+                                   <div class="typing-indicator"><span></span><span></span><span></span></div>`;
+      chatBox.appendChild(typingIndicator);
+
+      chatBox.scrollTop = chatBox.scrollHeight;  // تمرير آخر رسالة
+
+
+      // يرسل رسالة المستخدم ووضع الدردشة إلى السيرفر، ويعرض رد البوت عند وصوله
+      fetch("/ai-resume-chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userInput, mode: chatMode })
+      })
+      .then(response => response.json())
+      .then(data => {
+        chatBox.removeChild(typingIndicator);
+        let botMessage = document.createElement("div");
+        botMessage.className = "bot-message";
+        botMessage.innerHTML = `<img src="{{ url_for('static', filename='images/chat.png') }}" class="chat-avatar" alt="Bot">
+                                <div class="message-content">${data.message}</div>`;
+        chatBox.appendChild(botMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;  // تمرير آخر رسالة
+      })
+      .catch(error => console.error("❌ خطأ في إرسال البيانات:", error));
+    }
+
+    function downloadCV() { // دالة لتحميل ملف السيرة الذاتية من الخادم عند ضغط المستخدم على زر "تنزيل"
+      fetch("/download_cv")
+        .then(response => response.blob())
+        .then(blob => {
+          let link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "CV.docx";
+          link.click();
+        })
+        .catch(error => console.error("❌ خطأ أثناء تنزيل السيرة الذاتية:", error));
+    }
+  </script>
+</body>
+</html>

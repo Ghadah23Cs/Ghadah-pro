@@ -1,0 +1,146 @@
+/* 🔹 صندوق الدردشة */
+.chat-container {
+  width: 50%;
+  margin: auto;
+  margin-top: 100px; /* 🔹 زيادة المسافة من الأعلى */
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔹 صندوق الرسائل مع Scroll */
+#chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 400px;
+  padding: 15px;
+  border: 2px solid #0044cc;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔹 رسائل المستخدم */
+.user-message {
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 5px;
+  max-width: 80%;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 🔹 رسائل البوت */
+.bot-message {
+  background: #f0f0f0;
+  color: black;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 5px;
+  max-width: 80%;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 🔹 صور المستخدم والبوت */
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-message .chat-avatar {
+  margin-left: 10px;
+}
+
+.bot-message .chat-avatar {
+  margin-right: 10px;
+}
+
+/* 🔹 منطقة الإدخال */
+.input-area {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* 🔹 تحسين أزرار الإرسال والتنزيل */
+.send-btn, .download-btn {
+  background: #0044cc;
+  color: white;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  font-size: 16px;
+}
+
+.send-btn:hover, .download-btn:hover {
+  background: #003399;
+}
+
+/* 🔹 تأثير عند ظهور الرسائل */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔹 مؤشر الكتابة */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.typing-indicator span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+  background-color: #555;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* 🔹 الفوتر */
+footer {
+  background-color: #222;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

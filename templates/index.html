@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="keywords"
+    content="JOBFIT, AI Resume, Resume Analysis, CV Extraction, Resume Builder"
+  />
+  <meta
+    name="description"
+    content="Welcome to JOBFIT – your AI-powered solution for resume evaluation, analysis, and creation."
+  />
+
+  <!-- يستخدم لتنسيق وتصميم الصفحة باستخدام ستايلات جاهزة من Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./static/css/style.css" />
+
+ <!-- يستخدم لإضافة أيقونات جاهزة (مثل أيقونة الروبوت) من مكتبة Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- ايقونة الموقع -->
+  <link
+    id="favicon"
+    rel="shortcut icon"
+    href="./static/images/favicon.png"
+    type="image/x-png"
+  />
+
+  <title>JOBFIT</title>
+</head>
+<body oncontextmenu="return false">
+
+ <!-- بداية شريط التنقل (Navbar) -->
+  <header>
+     <!-- الشعار مع رابط الصفحة الرئيسية -->
+    <a href="/" class="logo"><i class="fas fa-robot"></i> JOBFIT</a>
+
+    <!-- أيقونة القائمة (للشاشات الصغيرة) -->
+    <div id="menu" class="fas fa-bars"></div>
+
+    <nav class="navbar">
+      <ul>
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+   <!-- نهاية شريط التنقل -->
+
+  <!--قسم المقدمة الرئيسي للصفحة  -->
+  <section class="home" id="home">
+    <!--div id="particles-js"></div -->
+
+     <!-- محتوى النص الرئيسي -->
+    <div class="content">
+      <h2>
+        Hi There,<br />
+        We Are <span>JOBFIT</span>
+      </h2>
+      <p>
+        Your AI-powered solution for resume evaluation, analysis, and creation
+        <span class="typing-text"></span>
+      </p>
+      <a href="#about" class="btn">
+        <span>Learn More</span>
+        <i class="fas fa-arrow-circle-down"></i>
+      </a>
+    </div>
+    <div class="image">  <!-- عرض صورة الشعار -->
+      <img
+        draggable="false"
+        class="tilt"
+        src="./static/images/logo.png"
+        alt="Smart CV Extractor Logo"
+      />
+    </div>
+  </section>
+ <!-- نهاية قسم المقدمة -->
+
+  <!--  بداية قسم يعرض خدمات الموقع -->
+  <section class="text-center p-3 bg-light" id="services">
+    <div class="container">
+      <h2 class="text-center mb-5">Our Services</h2>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+
+
+        <!-- Card 1 خدمة روبوت الدردشة الذكي للسيرة الذاتية  -->
+        <div class="col">
+          <div class="card h-100 text-center">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png"
+              class="card-img-top mx-auto mt-4"
+              alt="AI Resume Chatbot"
+              style="width:80px; height:auto;"
+            />
+            <!--محتوى البطاقة -->
+            <div class="card-body">
+              <h5 class="card-title">AI Resume Chatbot</h5>
+              <p class="card-text">
+                An interactive chatbot to help you create a professional resume quickly and easily.
+              </p>
+            </div>
+           
+
+            <div class="card-footer">
+              <a href="{{ url_for('ai_resume_chatbot') }}" class="btn btn-primary">Start Now</a>
+            </div>
+          </div>
+        </div>
+  
+        <!--  Start of Card 2 - خدمة تصنيف السيرة الذاتية -->
+        <div class="col">
+          <div class="card h-100 text-center">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png"
+              class="card-img-top mx-auto mt-4"
+              alt="CV Classification"
+              style="width:80px; height:auto;"
+            />
+             <!--محتوى البطاقة -->
+            <div class="card-body">
+              <h5 class="card-title">CV Classification</h5>
+              <p class="card-text">
+                Classify and organize your resume based on your field or specialty to ensure the best layout.
+              </p>
+            </div>
+
+            <div class="card-footer">
+              <a href="{{ url_for('cv_classification') }}" class="btn btn-primary">Start Now</a>
+            </div>
+          </div>
+        </div>
+  <!-- ====== End of Card 2 - خدمة تصنيف السيرة الذاتية ====== -->
+
+
+        <!-- Start of Card 3 - خدمة تحليل وتقييم السيرة الذاتية-->
+        <div class="col">
+          <div class="card h-100 text-center">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png"
+              class="card-img-top mx-auto mt-4"
+              alt="CV Analysis & Rating"
+              style="width:80px; height:auto;"
+            />
+            <!-- محتوى البطاقة -->
+            <div class="card-body">
+              <h5 class="card-title">CV Analysis & Rating</h5>
+              <p class="card-text">
+                Analyze your resume and receive a comprehensive evaluation to improve strengths and address weaknesses.
+              </p>
+            </div>
+             <!-- تذييل--زر بدء الخدمة -->
+            <div class="card-footer">
+              <a href="{{ url_for('cv_analysis_rating') }}" class="btn btn-primary">Start Now</a>
+            </div>
+          </div>
+        </div>
+  <!-- ====== End of Card 3 - خدمة تحليل وتقييم السيرة الذاتية ====== -->
+
+  <!-- ====== نهاية قسم الخدمات والصف  ====== -->
+
+      </div>
+    </div>
+  </section>
+  <!-- نهاية قسم الخدمات -->
+
+<!-- بداية قسم الاتصال -->
+<section class="contact" id="contact">
+  
+  <h2 class="heading"><i class="fas fa-headset"></i> Get in <span>Touch</span></h2>
+
+  <div class="container">
+    <div class="content">
+      <div class="image-box">
+        <img draggable="false" src="./static/images/contact1.png" alt="">
+      </div>
+
+   <!-- بداية نموذج التواصل -->
+    <form id="contact-form">
+      
+      <div class="form-group">
+
+        <!-- خانة الاسم -->
+        <div class="field">
+          <input type="text" name="name" placeholder="Name" required>
+          <i class='fas fa-user'></i>
+        </div>
+
+        <!-- خانة البريد الإلكتروني -->
+        <div class="field">
+          <input type="text" name="email" placeholder="Email" required>
+          <i class='fas fa-envelope'></i>
+        </div>
+
+         <!-- خانة رقم الهاتف -->
+        <div class="field">
+          <input type="text" name="phone" placeholder="Phone">
+          <i class='fas fa-phone-alt'></i>
+        </div>
+
+         <!-- خانة الرسالة -->
+        <div class="message">
+        <textarea placeholder="Message" name="message" required></textarea>
+        <i class="fas fa-comment-dots"></i>
+        </div>
+        </div>
+
+         <!-- زر إرسال النموذج -->
+      <div class="button-area">
+        <button type="submit">
+          Submit <i class="fa fa-paper-plane"></i></button>
+      </div>
+    </form>
+     <!-- نهاية نموذج التواصل -->
+
+  </div>
+  </div>
+</section>
+<!-- نهاية قسم الاتصال-->
+
+<!-- قسم الاسئلة الشائعة(Bootstrap Accordion) -->
+<section id="faq" class="faq py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+
+    <!-- فقرة تعريفية تشرح محتوى القسم -->
+    <p class="text-center mb-5">
+      Below you'll find answers to the most common questions about our three main services.
+    </p>
+
+    <div class="accordion" id="faqAccordion">
+
+      <!-- السؤال الاول --> 
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            1. What is the AI Resume Chatbot service?  <!-- السؤال هنا يشرح ما هي خدمة روبوت السيرة الذاتية--> 
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            The AI Resume Chatbot is an interactive service that uses artificial intelligence to help you build a professional resume in real-time. Simply provide your personal and professional details, and the chatbot will generate a complete CV for you, including summary, education, work experience, skills, and more.
+          </div>
+        </div>
+      </div>
+
+      <!-- السؤال الثاني -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            2. How do I use the AI Resume Chatbot?
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            To access the chatbot, click on the "Start Now" button under the AI Resume Chatbot service. Then, simply type in your information or respond to the chatbot's prompts. Once your resume is generated, you can download it as a DOCX file for further editing or sharing.
+          </div>
+        </div>
+      </div>
+
+      <!-- السؤال الثالث  -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            3. What does the CV Classification service do?
+          </button> 
+          
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            The CV Classification service analyzes the text of your resume and classifies it into a specific category, such as Python Developer, Data Scientist, Java Developer, and more. This helps recruiters and hiring managers quickly understand your professional focus and expertise.
+          </div>
+        </div>
+      </div>
+
+      <!-- السؤال الرابع  -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            4. How can I use the CV Classification feature?
+          </button> \\يوضح كيفية استخدام ميزة تصنيف السيرة الذاتية. 
+
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            To use this feature, navigate to the CV Classification page and paste your resume text into the provided field. Then, click on the "Start Now" button. The system will process your resume and display the most likely job category based on your skills and experience.
+          </div>
+        </div>
+      </div>
+
+      <!-- السؤال الخامس  -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFive">
+          <!-- زر يحتوي على نص السؤال -->
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            5. What is the CV Analysis & Rating service?
+          </button> وضح خدمة تحليل وتقييم السيرة الذاتية\\
+        </h2>
+        <!-- محتوى الإجابة الذي سيتم عرضه أو إخفاؤه عند النقر على السؤال -->
+        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            CV Analysis & Rating evaluates your resume based on various criteria like skills, experience, education, and overall relevance. It provides a numerical score along with suggestions on how to enhance your resume and identify the most suitable job title.
+          </div>
+        </div>
+      </div>
+
+      <!-- السؤال السادس -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSix">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+            6. How do I get my resume analyzed and rated? <!-- زر يحتوي على نص السؤال -->
+          </button>
+        </h2>
+        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+             data-bs-parent="#faqAccordion"><!-- محتوى الإجابة الذي سيتم عرضه أو إخفاؤه عند النقر -->
+          <div class="accordion-body">
+            <!-- نص الإجابة -->
+            Simply go to the CV Analysis & Rating page and upload your resume in PDF format. Once uploaded, the system will process your resume and provide a detailed score along with improvement recommendations. It also suggests a potential job role that matches your background.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- زر العودة إلى الأعلى -->
+  <a
+    href="#home"
+    aria-label="ScrollTop"
+    class="fas fa-angle-up"
+    id="scroll-top"
+  ></a>
+  <!--العودة إلى الأعلى-->
+  <footer class="text-center p-3 bg-light">
+    <p class="mb-0">My Project © 2025</p>
+  </footer>
+  
+  <!-- ==== جميع روابط الـ CDNs الخاصة بجافا سكربت الرئيسية تبدأ هنا  ==== -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js"
+    integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script src="./static/js/particles.min.js"></script>
+  <script src="./static/js/app.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"
+    integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"
+  ></script>
+  <!-- ==== جميع روابط الـ CDNs الخاصة بجافا سكربت الرئيسية تنتهي هنا ==== -->
+
+  <!-- - ربط ملفات جافا سكربت الخاصة بـ Bootstrap لتفعيل الأزرار والقوائم والنوافذ التفاعلية في الموقع -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <!-- تحميل السكربت المخصص للموقع -->
+  <script src="./static/js/script.js"></script>
+</body>
+</html>

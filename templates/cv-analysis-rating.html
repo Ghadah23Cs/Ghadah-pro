@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تحليل وتقييم السيرة الذاتية</title>
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- ملف CSS الخاص بك (اختياري) -->
+  <link rel="stylesheet" href="./static/css/style.css" />
+</head>
+<body>
+  <!-- navbar starts --> <!--رأس الصفحة: يحتوي على الشعار -->
+  <header class="bg-light shadow-sm mb-4">
+    <div class="container d-flex align-items-center justify-content-between py-2">
+      <a href="/" class="logo text-decoration-none text-dark fs-4">
+        <i class="fas fa-robot"></i> JOBFIT
+      </a>
+      <nav class="navbar">
+        <ul class="nav">
+          <li class="nav-item">  <!-- قائمة التنقل: تحتوي على روابط للأقسام المختلفة في الموقع -->
+            <a class="nav-link active" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- navbar ends -->
+
+  <div class="container">
+    <!-- العنوان الرئيسي -->
+    <div class="text-center mb-5"><!-- العنوان الرئيسي: يحتوي على عنوان ووصف توضيحي لتحليل وتقييم السيرة الذاتية -->
+      <h2 class="fw-bold">🔍 تحليل وتقييم السيرة الذاتية</h2>
+      <p class="text-muted">
+       قم بتحميل سيرتك الذاتية بصيغة <strong>PDF</strong> لتحليلها وتقييمها
+      </p>
+    </div>
+
+    <!--resume_data، مما يعني أن السيرة الذاتية قد تم تحليلها.بطاقة رفع الملف وتحليله -->
+
+    <div class="card shadow-sm mb-5"> <!-- بطاقة رفع وتحليل السيرة الذاتية -->
+      <div class="card-body text-center">
+        <h5 class="card-title mb-3">تحميل وتحليل السيرة الذاتية</h5>
+        <!-- نموذج رفع السيرة الذاتية وتحليلها -->
+
+        <form
+          action="{{ url_for('cv_analysis_rating') }}"
+          method="POST"
+          enctype="multipart/form-data"
+          class="mx-auto"
+          style="max-width: 400px;"
+        >
+        <!-- حقل رفع الملف -->
+          <div class="mb-3">
+            <input
+              type="file"
+              name="cv_file"
+              class="form-control"
+              accept=".pdf"
+              required
+            />
+          </div>
+          <!-- زر إرسال النموذج -->
+          <button type="submit" class="btn btn-primary">
+            📂 تحميل وتحليل
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- عرض النتائج في حال وجود بيانات -->
+    {% if resume_data %}
+      <!-- بطاقة بيانات السيرة الذاتية -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title mb-3">
+            <i class="fas fa-file-alt"></i> بيانات السيرة الذاتية
+          </h4>
+          <div class="row"> <!-- استخدام الـ row لتقسيم البيانات إلى عمودين -->
+            <div class="col-md-6">
+              <!-- عرض البيانات في العمود الأول -->
+              <p><strong>الاسم:</strong> {{ resume_data.first_name }} {{ resume_data.last_name }}</p>
+              <p><strong>البريد الإلكتروني:</strong> {{ resume_data.email }}</p>
+              <p><strong>رقم الهاتف:</strong> {{ resume_data.phone }}</p>
+            </div>
+
+            <div class="col-md-6"> <!-- عرض البيانات في العمود الثاني -->
+
+              <p><strong>التخصص:</strong> {{ resume_data.degree_major }}</p>
+              <p><strong>مستوى الخبرة:</strong> {{ resume_data.experience }}</p>
+            </div>
+          </div>
+
+          <hr />
+
+          <h5 class="mb-2">🛠️ المهارات (حتى 6 فقط):</h5>
+          <ul class="list-group list-group-flush mb-3">
+            {% for skill in resume_data.skills[:6] %}
+              <li class="list-group-item">{{ skill }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- صف يحتوي على بطاقات التقييم، العمل المناسب، والتوصيات -->
+      <div class="row g-4">
+        <!-- بطاقة التقييم -->
+        {% if ai_score %}
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">التقييم</h5>
+
+              <p class="card-text">{{ ai_score }}</p><!-- عرض التقييم كنص -->
+              <div class="progress">
+                {% set score_value = ai_score.split(':')[1].strip().split('/')[0] | int %}
+                <div
+                  class="progress-bar bg-success"
+                  role="progressbar"
+                  style="width:"{{ score_value }}%;"
+                  aria-valuenow="{{ score_value }}"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  {{ score_value }}/100 <!-- عرض التقييم داخل الشريط -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- بطاقة العمل المناسب -->
+        {% if ai_job %}
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">العمل المناسب</h5>
+              <p class="card-text">{{ ai_job }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- بطاقة التوصيات -->
+        {% if ai_recommendations %}
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title text-center">توصيات لتحسين السيرة الذاتية</h5>
+              <ul class="ps-3">
+                {% for line in ai_recommendations.splitlines() %}
+                <li class="mb-2">{{ line }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+   <!-- سكربت لتفعيل ميزت Bootstrap --> 
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+</body>
+</html>
